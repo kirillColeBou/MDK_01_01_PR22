@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.OleDb;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using ClassModule;
 
 namespace ClassConnection
@@ -107,6 +108,22 @@ namespace ClassConnection
             {
                 Console.WriteLine("NULL");
             }
+        }
+
+        public bool ItsNumber(string str)
+        {
+            Regex regex = new Regex("[^а-яА-Я ]+");
+            if (regex.IsMatch(str) == true)
+                return true;
+            else return false;
+        }
+
+        public bool ItsOnlyFIO(string str)
+        {
+            Regex regex = new Regex(@"\+7\([0-9]{3}\)[0-9]{3}\-[0-9]{2}\-[0-9]{2}");
+            if (regex.IsMatch(str) == true)
+                return true;
+            else return false;
         }
     }
 }
