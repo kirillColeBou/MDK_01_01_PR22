@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9944884B-AC16-42C7-9801-02C004027F85}</ProjectGuid>
+    <ProjectGuid>{6E5D51A6-15A4-4DA5-98D8-515025029DD4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ClassModule</RootNamespace>
-    <AssemblyName>ClassModule</AssemblyName>
+    <RootNamespace>ClassConnection</RootNamespace>
+    <AssemblyName>ClassConnection</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -41,9 +41,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Call.cs" />
-    <Compile Include="User.cs" />
+    <Compile Include="Connection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ClassModule\ClassModule.csproj">
+      <Project>{9944884B-AC16-42C7-9801-02C004027F85}</Project>
+      <Name>ClassModule</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
