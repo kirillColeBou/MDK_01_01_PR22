@@ -25,7 +25,7 @@ namespace ClassConnection
             try
             {
                 Path = Directory.GetCurrentDirectory();
-                OleDbConnection connect = new OleDbConnection(@"Provider=Microsoft.ACE.OLEDB.12.0; Data Source=" + Path + "/ПР22.accdb");
+                OleDbConnection connect = new OleDbConnection(@"Provider=Microsoft.ACE.OLEDB.15.0; Data Source=" + Path + "/ПР22.accdb");
                 connect.Open();
                 OleDbCommand cmd = new OleDbCommand(query, connect);
                 OleDbDataReader reader = cmd.ExecuteReader();
@@ -112,7 +112,7 @@ namespace ClassConnection
 
         public bool ItsNumber(string str)
         {
-            Regex regex = new Regex("[^а-яА-Я ]+");
+            Regex regex = new Regex(@"\+7\([0-9]{3}\)[0-9]{3}\-[0-9]{2}\-[0-9]{2}");
             if (regex.IsMatch(str) == true)
                 return true;
             else return false;
@@ -120,7 +120,7 @@ namespace ClassConnection
 
         public bool ItsOnlyFIO(string str)
         {
-            Regex regex = new Regex(@"\+7\([0-9]{3}\)[0-9]{3}\-[0-9]{2}\-[0-9]{2}");
+            Regex regex = new Regex(@"[а-яА-Я ]$");
             if (regex.IsMatch(str) == true)
                 return true;
             else return false;
