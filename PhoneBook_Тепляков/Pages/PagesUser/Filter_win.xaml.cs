@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ClassModule;
 
 namespace PhoneBook_Тепляков.Pages.PagesUser
 {
@@ -20,9 +21,121 @@ namespace PhoneBook_Тепляков.Pages.PagesUser
     /// </summary>
     public partial class Filter_win : Page
     {
-        public Filter_win()
+        Call call_itm;
+        User user_itm;
+        public static Filter_win fw;
+
+        public Filter_win(Call _call, User _user)
         {
             InitializeComponent();
+            call_itm = _call;
+            user_itm = _user;
+            if (time_start != null)
+            {
+                string[] dateTimeStart = _call.time_start.Split(' ');
+                string[] dateStart = dateTimeStart[0].Split('.');
+                date_start_range.SelectedDate = new DateTime(int.Parse(dateStart[2]), int.Parse(dateStart[1]), int.Parse(dateStart[0]));
+                time_start.Text = dateTimeStart[1];
+                string[] dateTimeFinish = _call.time_end.Split(' ');
+                string[] dateFinish = dateTimeFinish[0].Split('.');
+                date_end_range.SelectedDate = new DateTime(int.Parse(dateFinish[2]), int.Parse(dateFinish[1]), int.Parse(dateFinish[0]));
+                time_finish.Text = dateTimeFinish[1];
+            }
+            else
+            {
+                time_start.Text = "00:00";
+                time_finish.Text = "00:00";
+            }
+            foreach(User item in MainWindow.connect.users)
+            {
+                ComboBoxItem combUser_phone = new ComboBoxItem();
+                combUser_phone.Tag = item.id;
+                combUser_phone.Content = item.phone_num;
+                if (_call.user_id == item.id) combUser_phone.IsSelected = true;
+                number_phone.Items.Add(combUser_phone);
+            }
+            ComboBoxItem combItm_is = new ComboBoxItem();
+            combItm_is.Tag = 1;
+            combItm_is.Content = "Исходящий";
+            if (_call.category_call == 1) combItm_is.IsSelected = true;
+            call_category.Items.Add(combItm_is);
+            ComboBoxItem combItm_vh = new ComboBoxItem();
+            combItm_vh.Tag = 2;
+            combItm_vh.Content = "Входящий";
+            if (_call.category_call == 2) combItm_vh.IsSelected = true;
+            call_category.Items.Add(combItm_vh);
+        }
+
+        private void Click_Filter_Redact(object sender, RoutedEventArgs e)
+        {
+            if (!CheckTime(time_start.Text))
+            {
+                MessageBox.Show("Время старта не правильно");
+                return;
+            }
+            if (!CheckTime(time_finish.Text))
+            {
+                MessageBox.Show("Время конца не правильно");
+                return;
+            }
+            if (date_start_range.SelectedDate != null && date_end_range.SelectedDate != null)
+            {
+                DateTime dateStart = (System.DateTime)date_start_range.SelectedDate;
+                DateTime dateFinish = (System.DateTime)date_end_range.SelectedDate;
+                TimeSpan dateEnd = dateFinish.Subtract(dateStart);
+                if (!dateEnd.ToString().Contains("-"))
+                {
+                    User phone_user_temp;
+                    if (number_phone.SelectedItem != null) phone_user_temp = MainWindow.connect.users.Find(x => x.id == Convert.ToInt32(((ComboBoxItem)number_phone.SelectedItem).Tag));
+                    else
+                    {
+                        MessageBox.Show("Запрос не был обработан. Вы не указали номер", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return;
+                    }
+                    int id_calls_categ;
+                    if (call_category.SelectedItem != null) id_calls_categ = Convert.ToInt32(((ComboBoxItem)call_category.SelectedItem).Tag);
+                    else
+                    {
+                        MessageBox.Show("Запрос не был обработан. Вы не указали категорию звонка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return;
+                    }
+                    if (call_itm.time_end == null)
+                    {
+                        int id_calls = MainWindow.connect.SetLastId(ClassConnection.Connection.tables.calls);
+                        int id_users = MainWindow.connect.SetLastId(ClassConnection.Connection.tables.users);
+                        string query = $"SELECT [calls.time_start], [calls.time_end], [users.phone_num], [calls.category_call] FROM [users], [calls] WHERE [calls.Код] = {call_itm.id} AND [users.Код] = {user_itm.id} AND [calls.time_start] <= '{date_start_range.SelectedDate.Value.ToString().Split(' ')[0]} {time_start.Text}' AND [calls.time_end] >= '{date_end_range.SelectedDate.Value.ToString().Split(' ')[0]} {time_finish.Text}'";
+                        var pc = MainWindow.connect.QueryAccess(query);
+                        if (pc != null)
+                        {
+                            //MainWindow.connect.LoadData(ClassConnection.Connection.tables.calls);
+                            MessageBox.Show("Фильтр применен", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
+                            MainWindow.main.Anim_move(MainWindow.main.frame_main, MainWindow.main.scroll_main, null, null, Main.page_main.calls);
+                        }
+                        else MessageBox.Show("Фильтра не был обработан", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    }
+                }
+                else MessageBox.Show("Дата диапозона больше даты конца дипозона");
+            }
+            else MessageBox.Show("Вы не указали дату");
+        }
+
+        private void Click_Cancel_Filter_Redact(object sender, RoutedEventArgs e)
+        {
+            MainWindow.main.Anim_move(MainWindow.main.frame_main, MainWindow.main.scroll_main);
+        }
+
+        public bool CheckTime(string str)
+        {
+            string[] str1 = str.Split(':');
+            if (str1.Length == 2)
+                if (str1[0].Trim() != "" && str1[1].Trim() != "")
+                    if (int.Parse(str1[0]) >= 0 && int.Parse(str1[0]) <= 23)
+                        if (int.Parse(str1[1]) >= 0 && int.Parse(str1[1]) <= 59)
+                            return true;
+                        else return false;
+                    else return false;
+                else return false;
+            else return false;
         }
     }
 }

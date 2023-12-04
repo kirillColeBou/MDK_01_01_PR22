@@ -22,12 +22,12 @@
                         <Label Content="Добавить фильтр" Margin="39,28,26,0" Foreground="Black" FontSize="30" FontFamily="Yu Gothic UI Semibold" HorizontalContentAlignment="Left" Height="52" VerticalAlignment="Top"/>
                         <Label Content="Дата начала периода" Margin="39,85,232,0" Foreground="Black" FontSize="15" FontFamily="Yu Gothic UI Semilight" HorizontalContentAlignment="Left" Height="29" VerticalAlignment="Top"/>
                         <Grid Margin="30,104,126.2,385.4">
-                            <DatePicker Style="{StaticResource styleDatepicker}" x:Name="date_start_call" Height="35" Margin="9,10,214,0" VerticalAlignment="Top" FontFamily="Yu Gothic UI Semilight" FontSize="14"/>
+                            <DatePicker Style="{StaticResource styleDatepicker}" x:Name="date_start_range" Height="35" Margin="9,10,214,0" VerticalAlignment="Top" FontFamily="Yu Gothic UI Semilight" FontSize="14"/>
                             <TextBox Style="{StaticResource BaseBox}" x:Name="time_start" Height="35" Background="#FFDEDEDE" Margin="0,10,19,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="185"/>
                         </Grid>
                         <Label Content="Дата конца периода" Margin="39,149,232,0" Foreground="Black" FontSize="15" FontFamily="Yu Gothic UI Semilight" HorizontalContentAlignment="Left" Height="29" VerticalAlignment="Top"/>
                         <Grid Margin="30,170,126.2,324.4">
-                            <DatePicker Style="{StaticResource styleDatepicker}" x:Name="date_end_call" Height="35" Margin="9,10,214,0" VerticalAlignment="Top" FontFamily="Yu Gothic UI Semilight" FontSize="14"/>
+                            <DatePicker Style="{StaticResource styleDatepicker}" x:Name="date_end_range" Height="35" Margin="9,10,214,0" VerticalAlignment="Top" FontFamily="Yu Gothic UI Semilight" FontSize="14"/>
                             <TextBox Style="{StaticResource BaseBox}" x:Name="time_finish" Height="35" Background="#FFDEDEDE" Margin="0,10,19,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="185"/>
                         </Grid>
                         <Label Content="Номер абонента" Margin="39,211,232,0" Foreground="Black" FontSize="15" FontFamily="Yu Gothic UI Semilight" HorizontalContentAlignment="Left" Height="29" VerticalAlignment="Top"/>
@@ -39,9 +39,6 @@
                         </Button>
                         <Button x:Name="btn_cancel"  Style="{StaticResource BtnRedac}" Background="#FFE48F2B" Margin="0,0,26.2,24" VerticalAlignment="Bottom" Height="40" Width="105" Click="Click_Cancel_Filter_Redact" HorizontalAlignment="Right">
                             <Image Source="/Images/back.png" Width="20" Height="20"/>
-                        </Button>
-                        <Button x:Name="btn_remove" Style="{StaticResource BtnRedac}" Background="#FFE42B2B" Margin="30,0,0,23.6" VerticalAlignment="Bottom" Height="40" Width="105" Click="Click_Remove_Filter_Redact" HorizontalAlignment="Left">
-                            <Image Source="/Images/del.png" Width="20" Height="20"/>
                         </Button>
                     </Grid>
                 </Border>

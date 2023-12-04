@@ -35,12 +35,10 @@ namespace PhoneBook_Тепляков.Pages
         {
             InitializeComponent();
             page_select = page_main.none;
-            range_itms.Visibility = Visibility.Hidden;
         }
 
         private void Click_Phone(object sender, RoutedEventArgs e)
         {
-            range_itms.Visibility = Visibility.Hidden;
             if (frame_main.Visibility == Visibility.Visible) MainWindow.main.Anim_move(MainWindow.main.frame_main, MainWindow.main.scroll_main);
             if(page_select != page_main.users)
             {
@@ -56,7 +54,7 @@ namespace PhoneBook_Тепляков.Pages
                     opgriAnimation.From = 0;
                     opgriAnimation.To = 1;
                     opgriAnimation.Duration = TimeSpan.FromSeconds(0.2);
-                    opgriAnimation.Completed += async delegate
+                    opgriAnimation.Completed += delegate
                     {
                         Dispatcher.InvokeAsync(async () =>
                         {
@@ -84,7 +82,6 @@ namespace PhoneBook_Тепляков.Pages
 
         private void Click_History(object sender, RoutedEventArgs e)
         {
-            range_itms.Visibility = Visibility.Visible;
             if (frame_main.Visibility == Visibility.Visible) MainWindow.main.Anim_move(MainWindow.main.frame_main, MainWindow.main.scroll_main);
             if (page_select != page_main.calls)
             {
@@ -100,7 +97,7 @@ namespace PhoneBook_Тепляков.Pages
                     opgriAnimation.From = 0;
                     opgriAnimation.To = 1;
                     opgriAnimation.Duration = TimeSpan.FromSeconds(0.2);
-                    opgriAnimation.Completed += async delegate
+                    opgriAnimation.Completed += delegate
                     {
                         Dispatcher.InvokeAsync(async () =>
                         {
@@ -126,6 +123,34 @@ namespace PhoneBook_Тепляков.Pages
             }
         }
 
+        private void Click_Range_Date(object sender, RoutedEventArgs e)
+        {
+            page_select = page_main.filters;
+            DoubleAnimation opgridAnimation = new DoubleAnimation();
+            opgridAnimation.From = 1;
+            opgridAnimation.To = 0;
+            opgridAnimation.Duration = TimeSpan.FromSeconds(0.2);
+            opgridAnimation.Completed += delegate
+            {
+                parrent.Children.Clear();
+                DoubleAnimation opgriAnimation = new DoubleAnimation();
+                opgriAnimation.From = 0;
+                opgriAnimation.To = 1;
+                opgriAnimation.Duration = TimeSpan.FromSeconds(0.2);
+                opgriAnimation.Completed += delegate
+                {
+                    frame_main.Navigate(PagesUser.Filter_win.fw);
+                    //Dispatcher.InvokeAsync(async () =>
+                    //{
+
+                    //    await Task.Delay(90);
+                    //});
+                };
+                parrent.BeginAnimation(StackPanel.OpacityProperty, opgriAnimation);
+            };
+            parrent.BeginAnimation(StackPanel.OpacityProperty, opgridAnimation);
+        }
+
         public void Anim_move(Control control1, Control control2, Frame frame_main = null, Page pages = null, page_main page_restart = page_main.none)
         {
             if(page_restart != page_main.none)
@@ -139,6 +164,11 @@ namespace PhoneBook_Тепляков.Pages
                 {
                     page_select = page_main.none;
                     Click_History(new object(), new RoutedEventArgs());
+                }
+                else if (page_restart == page_main.filters)
+                {
+                    page_select = page_main.none;
+                    Click_Range_Date(new object(), new RoutedEventArgs());
                 }
             }
             else
@@ -163,11 +193,6 @@ namespace PhoneBook_Тепляков.Pages
                 };
                 control1.BeginAnimation(ScrollViewer.OpacityProperty, opgridAnimation);
             }
-        }
-
-        private void Click_Range_Date(object sender, MouseButtonEventArgs e)
-        {
-
         }
     }
 }
