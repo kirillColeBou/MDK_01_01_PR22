@@ -30,7 +30,7 @@ namespace PhoneBook_Тепляков.Pages.PagesUser
             InitializeComponent();
             call_itm = _call;
             user_itm = _user;
-            if (time_start != null)
+            if (_call.time_start != null)
             {
                 string[] dateTimeStart = _call.time_start.Split(' ');
                 string[] dateStart = dateTimeStart[0].Split('.');
@@ -46,7 +46,7 @@ namespace PhoneBook_Тепляков.Pages.PagesUser
                 time_start.Text = "00:00";
                 time_finish.Text = "00:00";
             }
-            foreach(User item in MainWindow.connect.users)
+            foreach (User item in MainWindow.connect.users)
             {
                 ComboBoxItem combUser_phone = new ComboBoxItem();
                 combUser_phone.Tag = item.id;

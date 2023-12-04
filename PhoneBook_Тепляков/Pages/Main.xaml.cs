@@ -125,30 +125,52 @@ namespace PhoneBook_Тепляков.Pages
 
         private void Click_Range_Date(object sender, RoutedEventArgs e)
         {
-            page_select = page_main.filters;
-            DoubleAnimation opgridAnimation = new DoubleAnimation();
-            opgridAnimation.From = 1;
-            opgridAnimation.To = 0;
-            opgridAnimation.Duration = TimeSpan.FromSeconds(0.2);
-            opgridAnimation.Completed += delegate
+            if (frame_main.Visibility == Visibility.Visible) MainWindow.main.Anim_move(MainWindow.main.frame_main, MainWindow.main.scroll_main);
+            if (page_select != page_main.filters)
             {
-                parrent.Children.Clear();
-                DoubleAnimation opgriAnimation = new DoubleAnimation();
-                opgriAnimation.From = 0;
-                opgriAnimation.To = 1;
-                opgriAnimation.Duration = TimeSpan.FromSeconds(0.2);
-                opgriAnimation.Completed += delegate
+                page_select = page_main.filters;
+                DoubleAnimation opgridAnimation = new DoubleAnimation();
+                opgridAnimation.From = 1;
+                opgridAnimation.To = 0;
+                opgridAnimation.Duration = TimeSpan.FromSeconds(0.2);
+                opgridAnimation.Completed += delegate
                 {
-                    frame_main.Navigate(PagesUser.Filter_win.fw);
-                    //Dispatcher.InvokeAsync(async () =>
-                    //{
-
-                    //    await Task.Delay(90);
-                    //});
+                    parrent.Children.Clear();
+                    DoubleAnimation opgriAnimation = new DoubleAnimation();
+                    opgriAnimation.From = 0;
+                    opgriAnimation.To = 1;
+                    opgriAnimation.Duration = TimeSpan.FromSeconds(0.2);
+                    opgriAnimation.Completed += delegate
+                    {
+                        Dispatcher.InvokeAsync(async () =>
+                        {
+                            MainWindow.connect.LoadData(ClassConnection.Connection.tables.calls);
+                            MainWindow.connect.LoadData(ClassConnection.Connection.tables.users);
+                            if (page_select == page_main.filters)
+                            {
+                                foreach (Call call_itm in MainWindow.connect.calls)
+                                {
+                                    foreach (User user_itm in MainWindow.connect.users)
+                                    {
+                                        if (page_select == page_main.filters)
+                                        {
+                                            parrent.Children.Add(new Elements.Filter_itm(call_itm, user_itm));
+                                            await Task.Delay(90);
+                                        }
+                                    }
+                                    if (page_select == page_main.filters)
+                                    {
+                                        var ff = new Pages.PagesUser.Filter_win(new Call(), new User());
+                                        parrent.Children.Add(new Elements.Add_itm(ff));
+                                    }
+                                }
+                            }
+                        });
+                    };
+                    parrent.BeginAnimation(StackPanel.OpacityProperty, opgriAnimation);
                 };
-                parrent.BeginAnimation(StackPanel.OpacityProperty, opgriAnimation);
-            };
-            parrent.BeginAnimation(StackPanel.OpacityProperty, opgridAnimation);
+                parrent.BeginAnimation(StackPanel.OpacityProperty, opgridAnimation);
+            }
         }
 
         public void Anim_move(Control control1, Control control2, Frame frame_main = null, Page pages = null, page_main page_restart = page_main.none)
