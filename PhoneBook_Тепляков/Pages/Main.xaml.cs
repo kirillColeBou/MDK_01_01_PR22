@@ -26,7 +26,7 @@ namespace PhoneBook_Тепляков.Pages
     {
         public enum page_main
         {
-            users, calls, none
+            users, calls, filters, none
         }
 
         public static page_main page_select;
@@ -35,10 +35,12 @@ namespace PhoneBook_Тепляков.Pages
         {
             InitializeComponent();
             page_select = page_main.none;
+            range_itms.Visibility = Visibility.Hidden;
         }
 
         private void Click_Phone(object sender, RoutedEventArgs e)
         {
+            range_itms.Visibility = Visibility.Hidden;
             if (frame_main.Visibility == Visibility.Visible) MainWindow.main.Anim_move(MainWindow.main.frame_main, MainWindow.main.scroll_main);
             if(page_select != page_main.users)
             {
@@ -82,6 +84,7 @@ namespace PhoneBook_Тепляков.Pages
 
         private void Click_History(object sender, RoutedEventArgs e)
         {
+            range_itms.Visibility = Visibility.Visible;
             if (frame_main.Visibility == Visibility.Visible) MainWindow.main.Anim_move(MainWindow.main.frame_main, MainWindow.main.scroll_main);
             if (page_select != page_main.calls)
             {
@@ -160,6 +163,11 @@ namespace PhoneBook_Тепляков.Pages
                 };
                 control1.BeginAnimation(ScrollViewer.OpacityProperty, opgridAnimation);
             }
+        }
+
+        private void Click_Range_Date(object sender, MouseButtonEventArgs e)
+        {
+
         }
     }
 }

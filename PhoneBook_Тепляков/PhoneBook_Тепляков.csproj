@@ -99,6 +99,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\PagesUser\Filter_win.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\PagesUser\User_win.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -114,6 +118,9 @@
     </Compile>
     <Compile Include="Pages\PagesUser\Call_win.xaml.cs">
       <DependentUpon>Call_win.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\PagesUser\Filter_win.xaml.cs">
+      <DependentUpon>Filter_win.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\PagesUser\User_win.xaml.cs">
       <DependentUpon>User_win.xaml</DependentUpon>
@@ -157,7 +164,9 @@
     <Resource Include="Images\plus.png" />
     <Resource Include="Images\redac.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\filter.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="logo.ico" />
   </ItemGroup>
