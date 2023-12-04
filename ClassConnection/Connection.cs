@@ -25,7 +25,7 @@ namespace ClassConnection
             try
             {
                 Path = Directory.GetCurrentDirectory();
-                OleDbConnection connect = new OleDbConnection(@"Provider=Microsoft.ACE.OLEDB.12.0; Data Source=" + Path + "/пр22.accdb");
+                OleDbConnection connect = new OleDbConnection(@"Provider=Microsoft.ACE.OLEDB.12.0; Data Source=" + Path + "/ПР22.accdb");
                 connect.Open();
                 OleDbCommand cmd = new OleDbCommand(query, connect);
                 OleDbDataReader reader = cmd.ExecuteReader();
