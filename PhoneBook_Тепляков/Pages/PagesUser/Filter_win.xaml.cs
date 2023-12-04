@@ -103,7 +103,9 @@ namespace PhoneBook_Тепляков.Pages.PagesUser
                     }
                     if (call_itm.time_end == null)
                     {
-                        string query = $"SELECT [calls.time_start], [calls.time_end], [users.phone_num], [calls.category_call] FROM [users], [calls] WHERE [calls.category_call] = '{call_category.SelectedIndex + 1}' AND [users.phone_num] = '{number_phone.Text}' AND [calls.date] BETWEEN #{date_start_range.SelectedDate.Value.ToString("MM/dd/yyyy")} {time_start.Text}# AND #{date_end_range.SelectedDate.Value.ToString("MM/dd/yyyy")} {time_finish.Text}#";
+                        var dateTimeFormatInfo = new System.Globalization.DateTimeFormatInfo();
+                        dateTimeFormatInfo.ShortDatePattern = "MM/dd/yyyy";
+                        string query = $"SELECT [calls.time_start], [calls.time_end], [users.phone_num], [calls.category_call] FROM [users], [calls] WHERE [calls.category_call] = '{call_category.SelectedIndex + 1}' AND [users.phone_num] = '{number_phone.Text}' AND [calls.date] BETWEEN #{date_start_range.SelectedDate.Value.ToString("d", dateTimeFormatInfo)} {time_start.Text}# AND #{date_end_range.SelectedDate.Value.ToString("d", dateTimeFormatInfo)} {time_finish.Text}#";
                         var pc = MainWindow.connect.QueryAccess(query);
                         if (pc != null)
                         {
