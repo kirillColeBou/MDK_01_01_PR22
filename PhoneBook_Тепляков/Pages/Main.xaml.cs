@@ -146,24 +146,11 @@ namespace PhoneBook_Тепляков.Pages
                         {
                             MainWindow.connect.LoadData(ClassConnection.Connection.tables.calls);
                             MainWindow.connect.LoadData(ClassConnection.Connection.tables.users);
+                            await Task.Delay(90);
                             if (page_select == page_main.filters)
                             {
-                                foreach (Call call_itm in MainWindow.connect.calls)
-                                {
-                                    foreach (User user_itm in MainWindow.connect.users)
-                                    {
-                                        if (page_select == page_main.filters)
-                                        {
-                                            parrent.Children.Add(new Elements.Filter_itm(call_itm, user_itm));
-                                            await Task.Delay(90);
-                                        }
-                                    }
-                                    if (page_select == page_main.filters)
-                                    {
-                                        var ff = new Pages.PagesUser.Filter_win(new Call(), new User());
-                                        parrent.Children.Add(new Elements.Add_itm(ff));
-                                    }
-                                }
+                                var ff = new Pages.PagesUser.Filter_win(new Call(), new User());
+                                parrent.Children.Add(new Elements.Add_itm(ff));
                             }
                         });
                     };

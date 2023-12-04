@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ClassModule;
+using PhoneBook_Тепляков.Pages.PagesUser;
 
 namespace PhoneBook_Тепляков.Elements
 {
@@ -24,6 +25,7 @@ namespace PhoneBook_Тепляков.Elements
     {
         Call call_loc;
         User user_loc;
+
         public Filter_itm(Call _call_loc, User _user_loc)
         {
             InitializeComponent();
@@ -32,7 +34,7 @@ namespace PhoneBook_Тепляков.Elements
             if (_call_loc.time_end != null)
             {
                 user_loc = MainWindow.connect.users.Find(x => x.id == _call_loc.user_id);
-                category_call_text.Content = user_loc.fio_user.ToString();
+                //category_call_text.Content = Filter_win.filter_Win.call_category.SelectedItem;
                 string[] dateLoc1 = _call_loc.time_start.ToString().Split(' ');
                 string[] dateLoc2 = _call_loc.time_end.ToString().Split(' ');
                 string[] date1 = dateLoc1[0].Split('.');

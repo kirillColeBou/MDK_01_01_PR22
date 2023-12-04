@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -23,28 +24,29 @@ namespace PhoneBook_Тепляков.Pages.PagesUser
     {
         Call call_itm;
         User user_itm;
-        public static Filter_win fw;
+        public static Filter_win filter_Win;
 
         public Filter_win(Call _call, User _user)
         {
             InitializeComponent();
             call_itm = _call;
             user_itm = _user;
+            filter_Win = this;
             if (_call.time_start != null)
             {
                 string[] dateTimeStart = _call.time_start.Split(' ');
                 string[] dateStart = dateTimeStart[0].Split('.');
-                date_start_range.SelectedDate = new DateTime(int.Parse(dateStart[2]), int.Parse(dateStart[1]), int.Parse(dateStart[0]));
+                date_start_range.SelectedDate = new DateTime(int.Parse(dateStart[1]), int.Parse(dateStart[2]), int.Parse(dateStart[0]));
                 time_start.Text = dateTimeStart[1];
                 string[] dateTimeFinish = _call.time_end.Split(' ');
                 string[] dateFinish = dateTimeFinish[0].Split('.');
-                date_end_range.SelectedDate = new DateTime(int.Parse(dateFinish[2]), int.Parse(dateFinish[1]), int.Parse(dateFinish[0]));
+                date_end_range.SelectedDate = new DateTime(int.Parse(dateFinish[1]), int.Parse(dateFinish[2]), int.Parse(dateFinish[0]));
                 time_finish.Text = dateTimeFinish[1];
             }
             else
             {
-                time_start.Text = "00:00";
-                time_finish.Text = "00:00";
+                time_start.Text = "00:00:00";
+                time_finish.Text = "00:00:00";
             }
             foreach (User item in MainWindow.connect.users)
             {
@@ -101,9 +103,7 @@ namespace PhoneBook_Тепляков.Pages.PagesUser
                     }
                     if (call_itm.time_end == null)
                     {
-                        int id_calls = MainWindow.connect.SetLastId(ClassConnection.Connection.tables.calls);
-                        int id_users = MainWindow.connect.SetLastId(ClassConnection.Connection.tables.users);
-                        string query = $"SELECT [calls.time_start], [calls.time_end], [users.phone_num], [calls.category_call] FROM [users], [calls] WHERE [calls.Код] = {call_itm.id} AND [users.Код] = {user_itm.id} AND [calls.time_start] <= '{date_start_range.SelectedDate.Value.ToString().Split(' ')[0]} {time_start.Text}' AND [calls.time_end] >= '{date_end_range.SelectedDate.Value.ToString().Split(' ')[0]} {time_finish.Text}'";
+                        string query = $"SELECT [calls.time_start], [calls.time_end], [users.phone_num], [calls.category_call] FROM [users], [calls] WHERE [calls.category_call] = '{call_category.SelectedIndex + 1}' AND [users.phone_num] = '{number_phone.Text}' AND [calls.date] BETWEEN #{date_start_range.SelectedDate.Value.ToString("MM/dd/yyyy")} {time_start.Text}# AND #{date_end_range.SelectedDate.Value.ToString("MM/dd/yyyy")} {time_finish.Text}#";
                         var pc = MainWindow.connect.QueryAccess(query);
                         if (pc != null)
                         {
@@ -127,11 +127,13 @@ namespace PhoneBook_Тепляков.Pages.PagesUser
         public bool CheckTime(string str)
         {
             string[] str1 = str.Split(':');
-            if (str1.Length == 2)
-                if (str1[0].Trim() != "" && str1[1].Trim() != "")
+            if (str1.Length == 3)
+                if (str1[0].Trim() != "" && str1[1].Trim() != "" && str1[2].Trim() != "")
                     if (int.Parse(str1[0]) >= 0 && int.Parse(str1[0]) <= 23)
                         if (int.Parse(str1[1]) >= 0 && int.Parse(str1[1]) <= 59)
-                            return true;
+                            if (int.Parse(str1[2]) >= 0 && int.Parse(str1[2]) <= 59)
+                                return true;
+                            else return false;
                         else return false;
                     else return false;
                 else return false;
