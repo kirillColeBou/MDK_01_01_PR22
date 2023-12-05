@@ -1,4 +1,5 @@
 ﻿using ClassModule;
+using PhoneBook_Тепляков.Elements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,9 +34,12 @@ namespace PhoneBook_Тепляков.Pages
 
         public static page_main page_select;
 
+        public static Main main;
+
         public Main()
         {
             InitializeComponent();
+            main = this;
             page_select = page_main.none;
         }
 
@@ -124,10 +128,14 @@ namespace PhoneBook_Тепляков.Pages
                 parrent.BeginAnimation(StackPanel.OpacityProperty, opgridAnimation);
             }
         }
-        
+
+        public bool AddIsApply = false;
+
         private void Click_Range_Date(object sender, RoutedEventArgs e)
         {
-            if (das == false) ClearFilter();
+            das = true;
+            if (das == true) ClearFilter();
+            das = false;
             if (frame_main.Visibility == Visibility.Visible) MainWindow.main.Anim_move(MainWindow.main.frame_main, MainWindow.main.scroll_main);
             if (page_select != page_main.filters)
             {
@@ -147,6 +155,7 @@ namespace PhoneBook_Тепляков.Pages
                     {
                         Dispatcher.InvokeAsync(async () =>
                         {
+                            MainWindow.connect.LoadData(ClassConnection.Connection.tables.search_filter);
                             foreach (Search_filter filter_itm in MainWindow.connect.search_filter)
                             {
                                 if (page_select == page_main.filters)
@@ -157,18 +166,21 @@ namespace PhoneBook_Тепляков.Pages
                             }
                             if (page_select == page_main.filters)
                             {
-                                //if (parrent.Children.Count <= 0)
-                                //{
-                                    var add = new Pages.PagesUser.Filter_win(new Search_filter(), new Call());
-                                    parrent.Children.Add(new Elements.Add_itm(add));
-                                //}
-                                //else if(parrent.Children.Count > 0)
-                                //{
-                                //    var add = new Pages.PagesUser.Filter_win(new Search_filter(), new Call());
-                                //    parrent.Children.Add(new Elements.Add_itm(add));
-                                //    var del = new Pages.PagesUser.Filter_win(new Search_filter(), new Call());
-                                //    parrent.Children.Add(new Elements.Delete_itm(del));
-                                //}
+                                
+                                var add = new Pages.PagesUser.Filter_win(new Search_filter(), new Call());
+                                parrent.Children.Add(new Elements.Add_itm(add));
+                                parrent.Children.Add(new Elements.Delete_itm());
+                                
+                                if (parrent.Children.Count < 3)
+                                {
+                                    Add_itm.itm.Visibility = Visibility.Visible;
+                                    Delete_itm.itm.del_itm.Visibility = Visibility.Collapsed;
+                                }
+                                if (parrent.Children.Count >= 3)
+                                {
+                                    Add_itm.itm.Visibility = Visibility.Collapsed;
+                                    Delete_itm.itm.del_itm.Visibility = Visibility.Visible;
+                                }
                             }
                         });
                     };

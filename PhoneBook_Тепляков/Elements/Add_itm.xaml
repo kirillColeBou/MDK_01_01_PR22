@@ -10,7 +10,7 @@
             <Grid.Resources>
                 <ResourceDictionary Source="/Resource/BtnRes.xaml"/>
             </Grid.Resources>
-            <Button Style="{StaticResource BtnRedac}" Background="#FF2C2C2C" Margin="0,0,0,10" VerticalAlignment="Center" Height="50" HorizontalAlignment="Center" Width="400" Click="Click_add">
+            <Button x:Name="add_itm" Style="{StaticResource BtnRedac}" Background="#FF2C2C2C" Margin="0,0,0,10" VerticalAlignment="Center" Height="50" HorizontalAlignment="Center" Width="400" Click="Click_add" Visibility="Visible">
                 <Image Source="/Images/plus.png" Width="20" Height="20"/>
             </Button>
         </Grid>    

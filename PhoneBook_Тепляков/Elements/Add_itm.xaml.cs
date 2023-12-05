@@ -21,10 +21,12 @@ namespace PhoneBook_Тепляков.Elements
     /// </summary>
     public partial class Add_itm : UserControl
     {
+        public static Add_itm itm;
         Page page_str;
         public Add_itm(Page _page_str)
         {
             InitializeComponent();
+            itm = this;
             page_str = _page_str;
             DoubleAnimation opgridAnimation = new DoubleAnimation();
             opgridAnimation.From = 0;

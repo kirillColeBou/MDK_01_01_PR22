@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ClassModule;
+using PhoneBook_Тепляков.Pages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,11 +23,11 @@ namespace PhoneBook_Тепляков.Elements
     /// </summary>
     public partial class Delete_itm : UserControl
     {
-        Page page_str;
-        public Delete_itm(Page _page_str)
+        public static Delete_itm itm;
+        public Delete_itm()
         {
             InitializeComponent();
-            page_str = _page_str;
+            itm = this;
             DoubleAnimation opgridAnimation = new DoubleAnimation();
             opgridAnimation.From = 0;
             opgridAnimation.To = 1;
@@ -35,7 +37,10 @@ namespace PhoneBook_Тепляков.Elements
 
         private void Click_del(object sender, RoutedEventArgs e)
         {
-            MainWindow.main.Anim_move(MainWindow.main.scroll_main, MainWindow.main.frame_main, MainWindow.main.frame_main, page_str);
+            Main.main.parrent.Children.Clear();
+            Main.main.ClearFilter();
+            var add = new Pages.PagesUser.Filter_win(new Search_filter(), new Call());
+            Main.main.parrent.Children.Add(new Elements.Add_itm(add));
         }
     }
 }
