@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.OleDb;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -72,12 +73,12 @@ namespace PhoneBook_Тепляков.Pages.PagesUser
         {
             if (!CheckTime(time_start.Text))
             {
-                MessageBox.Show("Время старта не правильно");
+                MessageBox.Show("Не корректный формат времени");
                 return;
             }
             if (!CheckTime(time_finish.Text))
             {
-                MessageBox.Show("Время конца не правильно");
+                MessageBox.Show("Не корректный формат времени");
                 return;
             }
             if (date_start_range.SelectedDate != null && date_end_range.SelectedDate != null)
@@ -109,9 +110,9 @@ namespace PhoneBook_Тепляков.Pages.PagesUser
                         var pc = MainWindow.connect.QueryAccess(query);
                         if (pc != null)
                         {
-                            //MainWindow.connect.LoadData(ClassConnection.Connection.tables.calls);
+                            MainWindow.connect.LoadData(ClassConnection.Connection.tables.search_filter);
                             MessageBox.Show("Фильтр применен", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
-                            MainWindow.main.Anim_move(MainWindow.main.frame_main, MainWindow.main.scroll_main, null, null, Main.page_main.calls);
+                            MainWindow.main.Anim_move(MainWindow.main.frame_main, MainWindow.main.scroll_main, null, null, Main.page_main.filters);
                         }
                         else MessageBox.Show("Фильтра не был обработан", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
                     }

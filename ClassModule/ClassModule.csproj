@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Call.cs" />
+    <Compile Include="Search_filter.cs" />
     <Compile Include="User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

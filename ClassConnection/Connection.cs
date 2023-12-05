@@ -12,10 +12,11 @@ namespace ClassConnection
     {
         public List<User> users = new List<User>();
         public List<Call> calls = new List<Call>();
+        public List<Search_filter> search_filter = new List<Search_filter>();
 
         public enum tables
         {
-            users, calls
+            users, calls, search_filter
         }
 
         public string Path = "";
@@ -60,6 +61,14 @@ namespace ClassConnection
                             return max_status + 1;
                         }
                         else return 1;
+                    case "search_filter":
+                        if (search_filter.Count >= 1)
+                        {
+                            int max_status = search_filter[0].id;
+                            max_status = search_filter.Max(x => x.id);
+                            return max_status + 1;
+                        }
+                        else return 1;
                 }
                 return -1;
             }
@@ -100,6 +109,20 @@ namespace ClassConnection
                         newEl.time_start = Convert.ToString(itemQuery.GetValue(4));
                         newEl.time_end = Convert.ToString(itemQuery.GetValue(5));
                         calls.Add(newEl);
+                    }
+                }
+                if (zap.ToString() == "search_filter")
+                {
+                    search_filter.Clear();
+                    while (itemQuery.Read())
+                    {
+                        Search_filter newEl = new Search_filter();
+                        newEl.id = Convert.ToInt32(itemQuery.GetValue(0));
+                        newEl.time_start = Convert.ToString(itemQuery.GetValue(1));
+                        newEl.time_end = Convert.ToString(itemQuery.GetValue(2));
+                        newEl.phone_number = Convert.ToString(itemQuery.GetValue(3));
+                        newEl.category_call = Convert.ToString(itemQuery.GetValue(4));
+                        search_filter.Add(newEl);
                     }
                 }
                 if (itemQuery != null) itemQuery.Close();

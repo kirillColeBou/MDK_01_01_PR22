@@ -122,7 +122,7 @@ namespace PhoneBook_Тепляков.Pages
                 parrent.BeginAnimation(StackPanel.OpacityProperty, opgridAnimation);
             }
         }
-
+        public Search_filter sf;
         private void Click_Range_Date(object sender, RoutedEventArgs e)
         {
             if (frame_main.Visibility == Visibility.Visible) MainWindow.main.Anim_move(MainWindow.main.frame_main, MainWindow.main.scroll_main);
@@ -144,8 +144,6 @@ namespace PhoneBook_Тепляков.Pages
                     {
                         Dispatcher.InvokeAsync(async () =>
                         {
-                            MainWindow.connect.LoadData(ClassConnection.Connection.tables.calls);
-                            MainWindow.connect.LoadData(ClassConnection.Connection.tables.users);
                             await Task.Delay(90);
                             if (page_select == page_main.filters)
                             {
