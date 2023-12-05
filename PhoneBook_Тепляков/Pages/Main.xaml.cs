@@ -24,6 +24,8 @@ namespace PhoneBook_Тепляков.Pages
     /// </summary>
     public partial class Main : Page
     {
+        public bool das = false;
+
         public enum page_main
         {
             users, calls, filters, none
@@ -122,9 +124,10 @@ namespace PhoneBook_Тепляков.Pages
                 parrent.BeginAnimation(StackPanel.OpacityProperty, opgridAnimation);
             }
         }
-        public Search_filter sf;
+        
         private void Click_Range_Date(object sender, RoutedEventArgs e)
         {
+            if (das == false) ClearFilter();
             if (frame_main.Visibility == Visibility.Visible) MainWindow.main.Anim_move(MainWindow.main.frame_main, MainWindow.main.scroll_main);
             if (page_select != page_main.filters)
             {
@@ -144,11 +147,28 @@ namespace PhoneBook_Тепляков.Pages
                     {
                         Dispatcher.InvokeAsync(async () =>
                         {
-                            await Task.Delay(90);
+                            foreach (Search_filter filter_itm in MainWindow.connect.search_filter)
+                            {
+                                if (page_select == page_main.filters)
+                                {
+                                    parrent.Children.Add(new Elements.Filter_itm(filter_itm));
+                                    await Task.Delay(90);
+                                }
+                            }
                             if (page_select == page_main.filters)
                             {
-                                var ff = new Pages.PagesUser.Filter_win(new Call(), new User());
-                                parrent.Children.Add(new Elements.Add_itm(ff));
+                                if (parrent.Children.Count <= 0)
+                                {
+                                    var add = new Pages.PagesUser.Filter_win(new Search_filter(), new Call());
+                                    parrent.Children.Add(new Elements.Add_itm(add));
+                                }
+                                else if(parrent.Children.Count > 0)
+                                {
+                                    var add = new Pages.PagesUser.Filter_win(new Search_filter(), new Call());
+                                    parrent.Children.Add(new Elements.Add_itm(add));
+                                    var del = new Pages.PagesUser.Filter_win(new Search_filter(), new Call());
+                                    parrent.Children.Add(new Elements.Delete_itm(del));
+                                }
                             }
                         });
                     };
@@ -200,6 +220,12 @@ namespace PhoneBook_Тепляков.Pages
                 };
                 control1.BeginAnimation(ScrollViewer.OpacityProperty, opgridAnimation);
             }
+        }
+        public void ClearFilter()
+        {
+            string query = $"DELETE FROM [search_filter]";
+            var pc = MainWindow.connect.QueryAccess(query);
+            das = true;
         }
     }
 }

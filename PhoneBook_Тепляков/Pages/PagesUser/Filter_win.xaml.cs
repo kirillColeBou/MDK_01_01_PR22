@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.OleDb;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,23 +24,21 @@ namespace PhoneBook_Тепляков.Pages.PagesUser
     /// </summary>
     public partial class Filter_win : Page
     {
-        Call call_itm;
-        User user_itm;
-        public static Filter_win filter_Win;
+        Search_filter search_Filter;
+        Call call;
 
-        public Filter_win(Call _call, User _user)
+        public Filter_win(Search_filter _search_Filter, Call _call)
         {
             InitializeComponent();
-            call_itm = _call;
-            user_itm = _user;
-            filter_Win = this;
-            if (_call.time_start != null)
+            search_Filter = _search_Filter;
+            call = _call;
+            if (_search_Filter.time_start != null)
             {
-                string[] dateTimeStart = _call.time_start.Split(' ');
+                string[] dateTimeStart = _search_Filter.time_start.ToString().Split(' ');
                 string[] dateStart = dateTimeStart[0].Split('.');
                 date_start_range.SelectedDate = new DateTime(int.Parse(dateStart[1]), int.Parse(dateStart[2]), int.Parse(dateStart[0]));
                 time_start.Text = dateTimeStart[1];
-                string[] dateTimeFinish = _call.time_end.Split(' ');
+                string[] dateTimeFinish = _search_Filter.time_end.ToString().Split(' ');
                 string[] dateFinish = dateTimeFinish[0].Split('.');
                 date_end_range.SelectedDate = new DateTime(int.Parse(dateFinish[1]), int.Parse(dateFinish[2]), int.Parse(dateFinish[0]));
                 time_finish.Text = dateTimeFinish[1];
@@ -54,18 +53,18 @@ namespace PhoneBook_Тепляков.Pages.PagesUser
                 ComboBoxItem combUser_phone = new ComboBoxItem();
                 combUser_phone.Tag = item.id;
                 combUser_phone.Content = item.phone_num;
-                if (_call.user_id == item.id) combUser_phone.IsSelected = true;
+                //if (_call.user_id == item.id) combUser_phone.IsSelected = true;
                 number_phone.Items.Add(combUser_phone);
             }
             ComboBoxItem combItm_is = new ComboBoxItem();
             combItm_is.Tag = 1;
             combItm_is.Content = "Исходящий";
-            if (_call.category_call == 1) combItm_is.IsSelected = true;
+            //if (_call.category_call == 1) combItm_is.IsSelected = true;
             call_category.Items.Add(combItm_is);
             ComboBoxItem combItm_vh = new ComboBoxItem();
             combItm_vh.Tag = 2;
             combItm_vh.Content = "Входящий";
-            if (_call.category_call == 2) combItm_vh.IsSelected = true;
+            //if (_call.category_call == 2) combItm_vh.IsSelected = true;
             call_category.Items.Add(combItm_vh);
         }
 
@@ -98,7 +97,7 @@ namespace PhoneBook_Тепляков.Pages.PagesUser
                         MessageBox.Show("Запрос не был обработан. Вы не указали категорию звонка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
                         return;
                     }
-                    if (call_itm.time_end == null)
+                    if (search_Filter.time_end == null)
                     {
                         var dateTimeFormatInfo = new System.Globalization.DateTimeFormatInfo();
                         dateTimeFormatInfo.ShortDatePattern = "MM/dd/yyyy";
