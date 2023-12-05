@@ -157,18 +157,18 @@ namespace PhoneBook_Тепляков.Pages
                             }
                             if (page_select == page_main.filters)
                             {
-                                if (parrent.Children.Count <= 0)
-                                {
+                                //if (parrent.Children.Count <= 0)
+                                //{
                                     var add = new Pages.PagesUser.Filter_win(new Search_filter(), new Call());
                                     parrent.Children.Add(new Elements.Add_itm(add));
-                                }
-                                else if(parrent.Children.Count > 0)
-                                {
-                                    var add = new Pages.PagesUser.Filter_win(new Search_filter(), new Call());
-                                    parrent.Children.Add(new Elements.Add_itm(add));
-                                    var del = new Pages.PagesUser.Filter_win(new Search_filter(), new Call());
-                                    parrent.Children.Add(new Elements.Delete_itm(del));
-                                }
+                                //}
+                                //else if(parrent.Children.Count > 0)
+                                //{
+                                //    var add = new Pages.PagesUser.Filter_win(new Search_filter(), new Call());
+                                //    parrent.Children.Add(new Elements.Add_itm(add));
+                                //    var del = new Pages.PagesUser.Filter_win(new Search_filter(), new Call());
+                                //    parrent.Children.Add(new Elements.Delete_itm(del));
+                                //}
                             }
                         });
                     };

@@ -53,18 +53,15 @@ namespace PhoneBook_Тепляков.Pages.PagesUser
                 ComboBoxItem combUser_phone = new ComboBoxItem();
                 combUser_phone.Tag = item.id;
                 combUser_phone.Content = item.phone_num;
-                //if (_call.user_id == item.id) combUser_phone.IsSelected = true;
                 number_phone.Items.Add(combUser_phone);
             }
             ComboBoxItem combItm_is = new ComboBoxItem();
             combItm_is.Tag = 1;
             combItm_is.Content = "Исходящий";
-            //if (_call.category_call == 1) combItm_is.IsSelected = true;
             call_category.Items.Add(combItm_is);
             ComboBoxItem combItm_vh = new ComboBoxItem();
             combItm_vh.Tag = 2;
             combItm_vh.Content = "Входящий";
-            //if (_call.category_call == 2) combItm_vh.IsSelected = true;
             call_category.Items.Add(combItm_vh);
         }
 
@@ -99,9 +96,9 @@ namespace PhoneBook_Тепляков.Pages.PagesUser
                     }
                     if (search_Filter.time_end == null)
                     {
-                        var dateTimeFormatInfo = new System.Globalization.DateTimeFormatInfo();
+                        var dateTimeFormatInfo = new DateTimeFormatInfo();
                         dateTimeFormatInfo.ShortDatePattern = "MM/dd/yyyy";
-                        string query = $"INSERT INTO [search_filter]([time_start], [time_end], [phone_number], [category_call]) SELECT [calls.time_start], [calls.time_end], [users.phone_num], [calls.category_call] FROM [users], [calls] WHERE [calls.category_call] = '{call_category.SelectedIndex + 1}' AND [users.phone_num] = '{number_phone.Text}' AND [calls.date] BETWEEN #{date_start_range.SelectedDate.Value.ToString("d", dateTimeFormatInfo)} {time_start.Text}# AND #{date_end_range.SelectedDate.Value.ToString("d", dateTimeFormatInfo)} {time_finish.Text}#";
+                        string query = $"INSERT INTO [search_filter]([time_start], [time_end], [phone_number], [category_call]) SELECT [calls.time_start], [calls.time_end], [users.phone_num], [calls.category_call] FROM [users], [calls] WHERE [users.Код] = [calls.user_id] AND [calls.category_call] = '{call_category.SelectedIndex + 1}' AND [users.phone_num] = '{number_phone.Text}' AND [calls.date] BETWEEN #{date_start_range.SelectedDate.Value.ToString("d", dateTimeFormatInfo)} {time_start.Text}# AND #{date_end_range.SelectedDate.Value.ToString("d", dateTimeFormatInfo)} {time_finish.Text}#";
                         var pc = MainWindow.connect.QueryAccess(query);
                         if (pc != null)
                         {
