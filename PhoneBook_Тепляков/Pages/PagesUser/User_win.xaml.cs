@@ -94,11 +94,11 @@ namespace PhoneBook_Тепляков.Pages.PagesUser
                     var click = MessageBox.Show("У данного клиента есть звонки, все равно удалить его?", "Вопрос", MessageBoxButton.YesNo, MessageBoxImage.Information);
                     if (click == MessageBoxResult.No) return;
                 }
-                string vs1 = $"DELETE FROM [calls] WHERE [user_id] = '{user_loc.id.ToString()}'";
-                var pc1 = MainWindow.connect.QueryAccess(vs1);
                 string vs = $"DELETE FROM [users] WHERE [Код] = " + user_loc.id.ToString();
                 var pc = MainWindow.connect.QueryAccess(vs);
-                if(pc != null && pc1 != null) 
+                string vs1 = $"DELETE FROM [calls] WHERE [user_id] = '{user_loc.id.ToString()}'";
+                var pc1 = MainWindow.connect.QueryAccess(vs1);
+                if(pc != null) 
                 {
                     MessageBox.Show("Успешное удаление клиента", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
                     MainWindow.connect.LoadData(ClassConnection.Connection.tables.users);

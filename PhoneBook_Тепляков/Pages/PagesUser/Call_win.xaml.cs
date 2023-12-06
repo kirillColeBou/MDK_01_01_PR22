@@ -39,8 +39,8 @@ namespace PhoneBook_Тепляков.Pages.PagesUser
             }
             else
             {
-                time_start.Text = "00:00";
-                time_finish.Text = "00:00";
+                time_start.Text = "00:00:00";
+                time_finish.Text = "00:00:00";
             }
             ComboBoxItem combItm_is = new ComboBoxItem();
             combItm_is.Tag = 1;
@@ -156,11 +156,13 @@ namespace PhoneBook_Тепляков.Pages.PagesUser
         public bool CheckTime(string str)
         {
             string[] str1 = str.Split(':');
-            if (str1.Length == 2)
-                if (str1[0].Trim() != "" && str1[1].Trim() != "")
+            if (str1.Length == 3)
+                if (str1[0].Trim() != "" && str1[1].Trim() != "" && str1[2].Trim() != "")
                     if (int.Parse(str1[0]) >= 0 && int.Parse(str1[0]) <= 23)
                         if (int.Parse(str1[1]) >= 0 && int.Parse(str1[1]) <= 59)
-                            return true;
+                            if (int.Parse(str1[2]) >= 0 && int.Parse(str1[2]) <= 59)
+                                return true;
+                            else return false;
                         else return false;
                     else return false;
                 else return false;

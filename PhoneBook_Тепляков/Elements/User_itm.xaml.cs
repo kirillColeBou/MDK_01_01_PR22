@@ -59,7 +59,7 @@ namespace PhoneBook_Тепляков.Elements
                 var pc1 = MainWindow.connect.QueryAccess(vs1);
                 string vs = $"DELETE FROM [users] WHERE [Код] = " + user_loc.id.ToString() + "";
                 var pc = MainWindow.connect.QueryAccess(vs);
-                if(pc != null && pc1 != null)
+                if(pc != null || pc1 != null)
                 {
                     MessageBox.Show("Успешное удаление клиента", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
                     MainWindow.connect.LoadData(ClassConnection.Connection.tables.users);
